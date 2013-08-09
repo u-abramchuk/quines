@@ -3,7 +3,8 @@
 rm -rf bin && mkdir bin 
 rm -rf out && mkdir out
 
-csc.exe /out:"bin\quine.exe" "src\quine.cs" > /dev/null
-bin/quine.exe > out/quine.cs
+csc.exe /out:"bin\quine.exe" "src\quine.cs" > /dev/null && bin/quine.exe > out/quine.cs
+diff -w src/quine.cs out/quine.cs
 
-cmp --silent src/quine.cs out/quine.cs
+node src/quine.js > out/quine.js
+diff -w src/quine.js out/quine.js
