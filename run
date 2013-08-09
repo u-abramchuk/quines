@@ -1,10 +1,32 @@
 #!/bin/bash
 
+#perform cleanup
+
 rm -rf bin && mkdir bin 
 rm -rf out && mkdir out
 
-csc.exe /out:"bin\quine.exe" "src\quine.cs" > /dev/null && bin/quine.exe > out/quine.cs
+
+#test c# quine
+
+if hash dmcs 2>/dev/null; then
+	dmcs /out:"bin/quine.exe" "src/quine.cs" && mono bin/quine.exe > out/quine.cs
+elif hash csc.exe 2>/dev/null; then
+	csc.exe /out:"bin\quine.exe" "src\quine.cs" > /dev/null && bin/quine.exe > out/quine.cs
+else
+	echo "ERROR: cannot find C# compiler";
+	exit 2;
+fi
+
 diff -w src/quine.cs out/quine.cs
 
-node src/quine.js > out/quine.js
+
+#test js quine
+
+if hash node 2>/dev/null; then
+	node src/quine.js > out/quine.js
+else 
+	echo "ERROR: cannot find node.js";
+	exit 2;
+fi
+
 diff -w src/quine.js out/quine.js
