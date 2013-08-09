@@ -6,11 +6,11 @@ Quines playground.
 Instructions
 ======
 
-Windows: open Git Bash and type 'run'
-Mac OS X: in Terminal type './run'
+Type './run' in Git Bash or Terminal to build and test quines.
 
 Requirements
 ======
 
+- Git Bash on Windows
 - csc.exe (.NET Framework) or dmcs (mono) to run C# quine
 - node to run JavaScript quine
