@@ -2,23 +2,23 @@
 
 #perform cleanup
 
-rm -rf bin && mkdir bin 
-rm -rf out && mkdir out
+rm -rf bin && mkdir -p bin/simple
+rm -rf out && mkdir -p out/simple
 
 #test c# quine
 
 echo "Testing C# quine"
 
 if hash dmcs 2>/dev/null; then
-	dmcs /out:"bin/quine.exe" "src/quine.cs" && mono bin/quine.exe > out/quine.cs
+	dmcs /out:"bin/simple/quine.exe" "src/simple/quine.cs" && mono bin/simple/quine.exe > out/simple/quine.cs
 elif hash csc.exe 2>/dev/null; then
-	csc.exe /out:"bin\quine.exe" "src\quine.cs" > /dev/null && bin/quine.exe > out/quine.cs
+	csc.exe /out:"bin\simple\quine.exe" "src\simple\quine.cs" > /dev/null && bin/simple/quine.exe > out/simple/quine.cs
 else
 	echo "ERROR: cannot find C# compiler";
 	exit 2;
 fi
 
-diff -w src/quine.cs out/quine.cs && echo "OK"
+diff -w src/simple/quine.cs out/simple/quine.cs && echo "OK"
 
 
 #test js quine
@@ -26,23 +26,24 @@ diff -w src/quine.cs out/quine.cs && echo "OK"
 echo "Testing JavaScript quine"
 
 if hash node 2>/dev/null; then
-	node src/quine.js > out/quine.js
+	node src/simple/quine.js > out/simple/quine.js
 else 
 	echo "ERROR: cannot find node.js";
 	exit 2;
 fi
 
-diff -w src/quine.js out/quine.js && echo "OK"
+diff -w src/simple/quine.js out/simple/quine.js && echo "OK"
+
 
 #test scala quine
 
 echo "Testing Scala quine"
 
 if hash scalac 2>/dev/null; then
-	scalac -d bin src/quine.scala && scala -cp bin quine > out/quine.scala
+	scalac -d bin/simple src/simple/quine.scala && scala -cp bin/simple quine > out/simple/quine.scala
 else
-	echo "ERROR: cannot find scala";
+	echo "ERROR: cannot find scala compiler";
 	exit 2;
 fi
 
-diff -w src/quine.scala out/quine.scala && echo "OK"
+diff -w src/simple/quine.scala out/simple/quine.scala && echo "OK"
