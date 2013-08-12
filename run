@@ -5,8 +5,9 @@
 rm -rf bin && mkdir bin 
 rm -rf out && mkdir out
 
-
 #test c# quine
+
+echo "Testing C# quine"
 
 if hash dmcs 2>/dev/null; then
 	dmcs /out:"bin/quine.exe" "src/quine.cs" && mono bin/quine.exe > out/quine.cs
@@ -17,10 +18,12 @@ else
 	exit 2;
 fi
 
-diff -w src/quine.cs out/quine.cs
+diff -w src/quine.cs out/quine.cs && echo "OK"
 
 
 #test js quine
+
+echo "Testing JavaScript quine"
 
 if hash node 2>/dev/null; then
 	node src/quine.js > out/quine.js
@@ -29,4 +32,17 @@ else
 	exit 2;
 fi
 
-diff -w src/quine.js out/quine.js
+diff -w src/quine.js out/quine.js && echo "OK"
+
+#test scala quine
+
+echo "Testing Scala quine"
+
+if hash scalac 2>/dev/null; then
+	scalac -d bin src/quine.scala && scala -cp bin quine > out/quine.scala
+else
+	echo "ERROR: cannot find scala";
+	exit 2;
+fi
+
+diff -w src/quine.scala out/quine.scala && echo "OK"
