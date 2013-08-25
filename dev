@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#perform cleanup
+
+rm -rf bin && mkdir -p bin/multi 
+rm -rf out && mkdir -p out/multi
+
+#test c# quine
+
+echo "Testing C# multi-quine"
+
+if hash dmcs 2>/dev/null; then
+	dmcs /out:"bin/multi/quine.exe" "src/multi/quine.cs" && mono bin/multi/quine.exe > out/multi/quine.cs
+elif hash csc.exe 2>/dev/null; then
+	csc.exe /out:"bin\multi\quine.exe" "src\multi\quine.cs" > /dev/null && bin/multi/quine.exe > out/multi/quine.cs
+else
+	echo "ERROR: cannot find C# compiler";
+	exit 2;
+fi
+
+diff -w src/multi/quine.cs out/multi/quine.cs && echo "OK"
